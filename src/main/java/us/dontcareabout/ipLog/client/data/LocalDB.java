@@ -1,7 +1,9 @@
 package us.dontcareabout.ipLog.client.data;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import us.dontcareabout.ipLog.client.vo.IpData;
 import us.dontcareabout.ipLog.client.vo.RawData;
@@ -11,6 +13,7 @@ public class LocalDB {
 
 	private List<RawData> rawList;
 	private HashMap<String, IpData> ipMap = new HashMap<>();
+	private Set<String> nameSet = new HashSet<>();
 
 	public void importRaw(List<RawData> list) {
 		rawList = list;
@@ -37,9 +40,16 @@ public class LocalDB {
 		return ipMap;
 	}
 
+	public Set<String> getNameSet() {
+		return nameSet;
+	}
+
 	private void build() {
 		ipMap.clear();
+		nameSet.clear();
+
 		rawList.forEach(raw -> {
+			nameSet.add(raw.name);
 			IpData ip = ipMap.get(raw.ip);
 
 			if (ip == null) {
