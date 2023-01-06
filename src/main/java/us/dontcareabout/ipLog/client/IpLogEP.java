@@ -3,12 +3,14 @@ package us.dontcareabout.ipLog.client;
 import com.google.gwt.user.client.Window;
 
 import us.dontcareabout.gwt.client.GFEP;
+import us.dontcareabout.gxt.client.component.RwdRootPanel;
+import us.dontcareabout.ipLog.client.ui.MainView;
 
 public class IpLogEP extends GFEP {
 	public IpLogEP() {}
 
 	@Override
-	protected String version() { return "0.0.1"; }
+	protected String version() { return "POC"; }
 
 	@Override
 	protected String defaultLocale() { return "zh_TW"; }
@@ -20,6 +22,6 @@ public class IpLogEP extends GFEP {
 
 	@Override
 	protected void start() {
-
+		RwdRootPanel.setComponent(new MainView());
 	}
 }
