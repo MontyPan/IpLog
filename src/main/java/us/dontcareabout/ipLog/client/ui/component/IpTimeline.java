@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
@@ -18,6 +17,7 @@ import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.gxt.client.util.ColorUtil;
 import us.dontcareabout.ipLog.client.data.DataCenter;
+import us.dontcareabout.ipLog.client.ui.layer.NameListLayer;
 import us.dontcareabout.ipLog.client.vo.IpData;
 import us.dontcareabout.ipLog.client.vo.NamePeriod;
 
@@ -87,16 +87,8 @@ class Timeline extends LayerContainer {
 		DateTimeFormat format = DateTimeFormat.getFormat("yyyy/MM/dd");
 		result.setGap(5);
 
-		List<String> allName = DataCenter.db.getAllName();
-		for(int i = 0; i < allName.size(); i++) {
-			TextButton nameTB = new TextButton(allName.get(i));
-			nameTB.setBgColor(ColorUtil.differential(i));
-			nameTB.addSpriteSelectionHandler(
-				e -> Window.open("https://www.google.com/search?q=ptt+" + nameTB.getText(), "_blank", null)
-			);
-			result.addChild(nameTB, 80);
-		}
-
+		NameListLayer nameList = new NameListLayer();
+		result.addChild(nameList, nameList.getViewSize());
 		TextButton date = new TextButton(format.format(start) + "～" + format.format(end));
 		result.addChild(date, 200);
 		return result;
