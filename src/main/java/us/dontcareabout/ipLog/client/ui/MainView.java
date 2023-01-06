@@ -7,7 +7,7 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.form.TextArea;
 
 import us.dontcareabout.ipLog.client.data.DataCenter;
-import us.dontcareabout.ipLog.client.layer.IpTimeline;
+import us.dontcareabout.ipLog.client.ui.component.IpTimeline;
 
 public class MainView extends VerticalLayoutContainer {
 	private static final VerticalLayoutData V1x1 = new VerticalLayoutData(1, 1);

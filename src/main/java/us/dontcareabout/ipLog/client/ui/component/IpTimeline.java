@@ -1,4 +1,4 @@
-package us.dontcareabout.ipLog.client.layer;
+package us.dontcareabout.ipLog.client.ui.component;
 
 import java.util.Date;
 import java.util.List;
