@@ -3,7 +3,6 @@ package us.dontcareabout.ipLog.client.ui.component;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
@@ -44,7 +43,6 @@ class Timeline extends LayerContainer {
 
 	private VerticalLayoutLayer root = new VerticalLayoutLayer();
 
-	private String[] names;
 	private Date start = new Date();
 	private Date end = new Date(0);
 
@@ -58,10 +56,6 @@ class Timeline extends LayerContainer {
 			if (start.after(ipData.getStart())) { start = ipData.getStart(); }
 			if (end.before(ipData.getEnd())) { end = ipData.getEnd(); }
 		}
-
-		Set<String> allName = DataCenter.db.getNameSet();
-		names = new String[allName.size()];
-		allName.toArray(names);
 
 		HorizontalLayoutLayer infoLayer = buildInfo();
 		root.addChild(infoLayer, 32);
@@ -93,9 +87,10 @@ class Timeline extends LayerContainer {
 		DateTimeFormat format = DateTimeFormat.getFormat("yyyy/MM/dd");
 		result.setGap(5);
 
-		for (int i = 0; i < names.length; i++) {
-			TextButton nameTB = new TextButton(names[i]);
-			nameTB.setBgColor(nameColor(names[i]));
+		List<String> allName = DataCenter.db.getAllName();
+		for(int i = 0; i < allName.size(); i++) {
+			TextButton nameTB = new TextButton(allName.get(i));
+			nameTB.setBgColor(ColorUtil.differential(i));
 			nameTB.addSpriteSelectionHandler(
 				e -> Window.open("https://www.google.com/search?q=ptt+" + nameTB.getText(), "_blank", null)
 			);
@@ -105,16 +100,6 @@ class Timeline extends LayerContainer {
 		TextButton date = new TextButton(format.format(start) + "～" + format.format(end));
 		result.addChild(date, 200);
 		return result;
-	}
-
-	private Color nameColor(String name) {
-		for (int i = 0; i < names.length; i++) {
-			if (names[i].equals(name)) {
-				return ColorUtil.differential(i);
-			}
-		}
-
-		return RGB.BLACK;	//不會發生... 吧
 	}
 
 	private static int periodWidth(Date start, Date end) {
@@ -143,7 +128,7 @@ class Timeline extends LayerContainer {
 			NameLayer(List<NamePeriod> periodList) {
 				periodList.forEach(p -> {
 					TextButton n = new TextButton("" + p.getCount());
-					n.setBgColor(nameColor(p.name));
+					n.setBgColor(ColorUtil.differential(DataCenter.db.getAllName().indexOf(p.name)));
 					n.setBgRadius(5);
 					n.setLX(periodWidth(start, p.start));
 					n.resize(periodWidth(p.start, p.getEnd()), H);
