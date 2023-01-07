@@ -52,7 +52,7 @@ class Timeline extends LayerContainer {
 
 		for (String ip : ipMap.keySet()) {
 			IpData ipData = ipMap.get(ip);
-			if (ipData.getNameSet().size() < 2) { continue; }
+			if (ipData.getNameList().size() < 2) { continue; }
 			if (start.after(ipData.getStart())) { start = ipData.getStart(); }
 			if (end.before(ipData.getEnd())) { end = ipData.getEnd(); }
 		}
@@ -62,7 +62,7 @@ class Timeline extends LayerContainer {
 
 		for (String ip : ipMap.keySet()) {
 			IpData ipData = ipMap.get(ip);
-			if (ipData.getNameSet().size() < 2) { continue; }
+			if (ipData.getNameList().size() < 2) { continue; }
 			IpDataLayer ipDL = new IpDataLayer(ipData);
 			ipDL.setBgColor(BG[bgIndex++ % 2]);
 			root.addChild(ipDL, ipDL.getViewSize());
@@ -108,7 +108,7 @@ class Timeline extends LayerContainer {
 		IpDataLayer(IpData ipData) {
 			this.ipData = ipData;
 			setGap(3);
-			ipData.getNameSet().forEach(name -> build(name));
+			ipData.getNameList().forEach(name -> build(name));
 			adjustMember();
 		}
 

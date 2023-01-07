@@ -59,8 +59,8 @@ public class IpData {
 			.collect(Collectors.toList());
 	}
 
-	public Set<String> getNameSet() {
-		return nameSet;
+	public List<String> getNameList() {
+		return new ArrayList<>(nameSet);
 	}
 
 	/**
