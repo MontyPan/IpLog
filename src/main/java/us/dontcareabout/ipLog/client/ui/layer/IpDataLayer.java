@@ -35,7 +35,10 @@ public class IpDataLayer extends HorizontalLayoutLayer {
 	}
 
 	public double computeHeight() {
-		return data.getNameList().size() * H + MARGIN + H;
+		int size = data.getNameList().size();
+		return H + //IP 欄
+			+ MARGIN * 2 //上下都有
+			+ size * H - (size - 1) * H_OVERLAP;
 	}
 
 	////////
