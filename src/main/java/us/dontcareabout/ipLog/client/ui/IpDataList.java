@@ -8,7 +8,7 @@ import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import us.dontcareabout.gxt.client.draw.LayerContainer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.ipLog.client.data.DataCenter;
-import us.dontcareabout.ipLog.client.ui.layer.IpDataLayer;
+import us.dontcareabout.ipLog.client.ui.layer.IpOverlapLayer;
 import us.dontcareabout.ipLog.client.ui.layer.NameListLayer;
 import us.dontcareabout.ipLog.client.vo.IpData;
 
@@ -43,7 +43,8 @@ public class IpDataList extends VerticalLayoutContainer {
 			for (String ip : ipMap.keySet()) {
 				IpData ipData = ipMap.get(ip);
 				if (ipData.getNameList().size() < 2) { continue; }
-				IpDataLayer ipDL = new IpDataLayer(ipData);
+				if (!ipData.hasOverlap()) { continue; }
+				IpOverlapLayer ipDL = new IpOverlapLayer(ipData);
 				root.addChild(ipDL, ipDL.computeHeight());
 				maxWidth = Math.max(maxWidth, ipDL.getViewSize());
 			}
