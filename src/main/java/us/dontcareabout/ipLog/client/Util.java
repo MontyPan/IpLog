@@ -17,4 +17,12 @@ public class Util {
 			1.0 * (end.getTime() - start.getTime()) / (60 * 1000)
 		);
 	}
+
+	public static int hourCeilDiff(Date start, Date end) {
+		if (start.equals(end)) { return 1; }
+
+		return (int)Math.ceil(
+			1.0 * (end.getTime() - start.getTime()) / (60 * 60 * 1000)
+		);
+	}
 }
