@@ -1,20 +1,20 @@
 package us.dontcareabout.ipLog.client.data;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import us.dontcareabout.ipLog.client.vo.IpData;
 import us.dontcareabout.ipLog.client.vo.RawData;
 
 public class LocalDB {
-	private int validityHour = 8;
+	private int validityHour = 1;
 
 	private List<RawData> rawList;
 	private HashMap<String, IpData> ipMap = new HashMap<>();
-	private ArrayList<String> nameList;
+	private HashMap<String, Set<String>> nameIpMap = new HashMap<>();
 
 	public void importRaw(List<RawData> list) {
 		rawList = list;
@@ -38,19 +38,22 @@ public class LocalDB {
 	}
 
 	public HashMap<String, IpData> getIpMap() {
-		return ipMap;
+		return ipMap;	//Refactory 改為 ipDataMap
 	}
 
 	public List<String> getAllName() {
-		return nameList;
+		return nameIpMap.keySet().stream().collect(Collectors.toList());
+	}
+
+	public Set<String> getUsedIp(String name) {
+		return nameIpMap.get(name);
 	}
 
 	private void build() {
 		ipMap.clear();
-		Set<String> nameSet = new HashSet<>();
+		nameIpMap.clear();
 
 		rawList.forEach(raw -> {
-			nameSet.add(raw.name);
 			IpData ip = ipMap.get(raw.ip);
 
 			if (ip == null) {
@@ -59,8 +62,15 @@ public class LocalDB {
 			}
 
 			ip.add(raw);
-		});
 
-		nameList = new ArrayList<>(nameSet);
+			Set<String> ipList = nameIpMap.get(raw.name);
+
+			if (ipList == null) {
+				ipList = new HashSet<>();
+				nameIpMap.put(raw.name, ipList);
+			}
+
+			ipList.add(raw.ip);
+		});
 	}
 }
