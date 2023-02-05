@@ -13,7 +13,8 @@ public class LocalDB {
 	private int validityHour = 1;
 
 	private List<RawData> rawList;
-	private HashMap<String, IpData> ipMap = new HashMap<>();
+	private HashMap<String, IpData> ipDataMap = new HashMap<>();
+	private HashMap<String, List<IpData>> ipOverlapMap = new HashMap<>();
 	private HashMap<String, Set<String>> nameIpMap = new HashMap<>();
 
 	public void importRaw(List<RawData> list) {
@@ -37,8 +38,12 @@ public class LocalDB {
 		return rawList;
 	}
 
-	public HashMap<String, IpData> getIpMap() {
-		return ipMap;	//Refactory 改為 ipDataMap
+	public HashMap<String, IpData> getIpDataMap() {
+		return ipDataMap;
+	}
+
+	public HashMap<String, List<IpData>> getIpOverlapMap() {
+		return ipOverlapMap;
 	}
 
 	public List<String> getAllName() {
@@ -50,15 +55,15 @@ public class LocalDB {
 	}
 
 	private void build() {
-		ipMap.clear();
+		ipDataMap.clear();
 		nameIpMap.clear();
 
 		rawList.forEach(raw -> {
-			IpData ip = ipMap.get(raw.ip);
+			IpData ip = ipDataMap.get(raw.ip);
 
 			if (ip == null) {
 				ip = new IpData(raw.ip, validityHour);
-				ipMap.put(raw.ip, ip);
+				ipDataMap.put(raw.ip, ip);
 			}
 
 			ip.add(raw);
@@ -72,5 +77,15 @@ public class LocalDB {
 
 			ipList.add(raw.ip);
 		});
+
+		//ipDataMap 建完才能搞這個
+		ipOverlapMap.clear();
+
+		for (String ip : ipDataMap.keySet()) {
+			IpData ipData = ipDataMap.get(ip);
+			if (ipData.getNameList().size() < 2) { continue; }
+			if (!ipData.hasOverlap()) { continue; }
+			ipOverlapMap.put(ip, ipData.asOverlapList());
+		}
 	}
 }

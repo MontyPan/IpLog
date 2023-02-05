@@ -37,13 +37,10 @@ public class IpDataList extends VerticalLayoutContainer {
 			root.addChild(nameList, 32);
 			double maxWidth = nameList.getViewSize();
 
-			Map<String, IpData> ipMap = DataCenter.db.getIpMap();
+			Map<String, java.util.List<IpData>> ipMap = DataCenter.db.getIpOverlapMap();
 
 			for (String ip : ipMap.keySet()) {
-				IpData ipData = ipMap.get(ip);
-				if (ipData.getNameList().size() < 2) { continue; }
-				if (!ipData.hasOverlap()) { continue; }
-				IpOverlapLayer ipDL = new IpOverlapLayer(ipData);
+				IpOverlapLayer ipDL = new IpOverlapLayer(ipMap.get(ip));
 				root.addChild(ipDL, ipDL.computeHeight());
 				maxWidth = Math.max(maxWidth, ipDL.getViewSize());
 			}

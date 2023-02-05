@@ -3,7 +3,6 @@ package us.dontcareabout.ipLog.client;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
@@ -32,15 +31,11 @@ public class Util {
 	}
 
 
-	public static String toString(Map<String, IpData> ipMap) {
+	public static String toString(HashMap<String, List<IpData>> hashMap) {
 		StringBuilder result = new StringBuilder();
 
-		for (String ip : ipMap.keySet()) {
-			IpData ipData = ipMap.get(ip);
-			if (ipData.getNameList().size() < 2) { continue; }
-			if (!ipData.hasOverlap()) { continue; }
-
-			result.append(toString(ip, ipData.asOverlapList()));
+		for (String ip : hashMap.keySet()) {
+			result.append(toString(ip, hashMap.get(ip)));
 			result.append("\n\n");
 		}
 

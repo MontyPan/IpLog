@@ -47,7 +47,7 @@ class Timeline extends LayerContainer {
 	private Date end = new Date(0);
 
 	Timeline() {
-		Map<String, IpData> ipMap = DataCenter.db.getIpMap();
+		Map<String, IpData> ipMap = DataCenter.db.getIpDataMap();
 		int bgIndex = 0;
 
 		for (String ip : ipMap.keySet()) {
