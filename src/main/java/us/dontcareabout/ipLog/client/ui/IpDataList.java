@@ -18,10 +18,9 @@ public class IpDataList extends VerticalLayoutContainer {
 	public IpDataList() {
 		setAdjustForScroll(true);
 		setScrollMode(ScrollMode.AUTO);
-		DataCenter.addImportComplete(e -> refresh());
 	}
 
-	private void refresh() {
+	public void refresh() {
 		clear();
 		add(new List(), V_1x_1);
 		forceLayout();
